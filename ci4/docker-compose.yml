@@ -1,6 +1,4 @@
  
- # See: https://github.com/maxpou/docker-symfony
- 
     version: '3'
      
     services:

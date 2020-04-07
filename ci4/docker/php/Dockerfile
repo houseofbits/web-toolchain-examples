@@ -7,6 +7,13 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip
 
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install -y --no-install-recommends apt-utils
+RUN apt-get install -y libicu-dev
+RUN apt-get install -y libonig-dev
+RUN apt-get install -y libxml2-dev
+
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 && composer --version
@@ -17,9 +24,13 @@ RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} >
 && "date"
 
 # Type docker-php-ext-install to see available extensions
-#RUN docker-php-ext-install pdo pdo_mysql
 
-RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install -j$(nproc) intl
+RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
+RUN docker-php-ext-install pdo pdo_mysql
+#RUN docker-php-ext-install json
+#RUN docker-php-ext-install mbstring
+RUN docker-php-ext-install xml
 
 # install xdebug
 RUN pecl install xdebug \
