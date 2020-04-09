@@ -6,4 +6,4 @@ docker-compose exec php bash
 composer install
 ```
 
-Edit /docker/pph/Dockerfile to add extensions
+Edit /docker/php/Dockerfile to add extensions
