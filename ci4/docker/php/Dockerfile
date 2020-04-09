@@ -31,6 +31,7 @@ RUN docker-php-ext-install pdo pdo_mysql
 #RUN docker-php-ext-install json
 #RUN docker-php-ext-install mbstring
 RUN docker-php-ext-install xml
+RUN docker-php-ext-install mysqli
 
 # install xdebug
 RUN pecl install xdebug \
