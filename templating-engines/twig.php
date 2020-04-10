@@ -16,5 +16,5 @@ $entity = new TestEntity();
 $contents = file_get_contents('data/data.json');
 $testData = json_decode($contents);
 
-echo $twig->render('content.html', ['data' => $testData, 'entity' => $entity]);
+echo $twig->render('content.twig', ['data' => $testData, 'entity' => $entity]);
 
