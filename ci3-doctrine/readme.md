@@ -1,4 +1,4 @@
-**Most basic setup of CodeIgniter3, DoctrineORM 2.7, Bootstrap4, HMVC Module**
+**Basic project with CodeIgniter3, DoctrineORM 2.7, Bootstrap4, HMVC Module**
 
 - [CodeIgniter 3](https://codeigniter.com/userguide3/index.html)
 - [DoctrineORM](https://www.doctrine-project.org/projects/doctrine-orm/en/2.7/index.html)

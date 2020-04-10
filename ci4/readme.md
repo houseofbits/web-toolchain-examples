@@ -5,7 +5,7 @@
 Setup
 ```
 cd ci4
-docker-compose build [If needed]
+docker-compose build
 docker-compose up -d
 docker-compose exec php composer install
 ```
