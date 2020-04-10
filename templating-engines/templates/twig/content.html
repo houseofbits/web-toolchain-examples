@@ -1,0 +1,39 @@
+{% extends "index.html" %}
+
+{% block title %}{{data.pageTitle}} - Twig{% endblock %}
+
+{% block content %}
+
+<hr>
+
+    <h1>Twig</h1>
+    <h3>{{data.pageTitle}}</h3>
+
+    <br>
+    <br>
+
+    {{include('person.html')}}
+
+    <br>
+    <br>
+
+    {% for day in data.arrayData%}
+        {{ day }}
+    {% endfor %}
+
+    <br>
+    <br>
+
+    {% for y in data.array2DData%}
+        {% for x in y%}
+            {{ x }}
+        {% endfor %}
+        <br>
+    {% endfor %}
+
+    <br>
+    <br>
+
+    {{ include('entity.html') }}
+
+{% endblock %}

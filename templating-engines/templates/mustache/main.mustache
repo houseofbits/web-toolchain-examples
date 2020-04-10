@@ -1,0 +1,39 @@
+{{#data}}
+
+    <hr>
+
+    <h1>Mustache</h1>
+    <h3>{{pageTitle}}</h3>
+
+    {{#objectData}}
+        {{> person}}
+    {{/objectData}}
+
+    <br>
+    <br>
+
+    {{#lang}}Localized string{{/lang}}
+
+    <br>
+    <br>
+
+    {{# arrayData }}
+        {{.}}
+    {{/ arrayData }}
+
+    <br>
+    <br>
+
+    {{#array2DData}}
+        {{#.}}
+            {{.}}
+        {{/.}}
+        <br>
+    {{/array2DData}}
+
+{{/data}}
+
+<br>
+<br>
+
+{{> entity}}

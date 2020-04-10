@@ -1,0 +1,9 @@
+{
+	"description": "Docker test project",
+	"name": "",    
+    "require": {
+        "monolog/monolog": "1.0.*",
+		"twig/twig": "^2.12",
+		"mustache/mustache": "^2.13"
+    }
+}

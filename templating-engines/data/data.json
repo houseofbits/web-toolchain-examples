@@ -1,0 +1,29 @@
+{
+  "pageTitle":"Playing with different templating engines",
+  "objectData":{
+    "id":1,
+    "name":"Janis",
+    "surname":"Rainis",
+    "age":"89",
+    "profession":"Poet"
+  },
+  "arrayData":["Monday","Tuesday","Friday"],
+  "arrayOfObjects":[
+    {
+      "id":1,
+      "productName":"Phone"
+    },
+    {
+      "id":2,
+      "productName":"Laptop"
+    },
+    {
+      "id":3,
+      "productName":"Mouse"
+    }
+  ],
+  "array2DData":[
+    ["x1y1","x2y1"],
+    ["x1y2","x2y2"]
+  ]
+}
