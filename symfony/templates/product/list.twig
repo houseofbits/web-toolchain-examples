@@ -1,0 +1,11 @@
+<div class="container mt-3">
+    <div class="card-deck">
+
+        {% for product in products%}
+
+            {{ include('product/product.twig') }}
+
+        {% endfor %}
+
+    </div>
+</div>

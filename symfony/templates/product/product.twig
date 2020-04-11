@@ -1,0 +1,10 @@
+<div class="card bg-light" style="width:300px">
+    <img class="card-img-top" src="{{ product.getImageUrl() }}" alt="Card image" style="width:100%">
+    <div class="card-body">
+        <h4 class="card-title">{{ product.getName() }}</h4>
+        <i>{{ product.getCreatedAt() | date('Y-m-d H:i:s') }}</i>
+        <hr>
+        <a href="/products/edit/{{ product.getId() }}" class="btn btn-success">Edit</a>
+        <a href="/products/delete/{{ product.getId() }}" class="btn btn-primary">Delete</a>
+    </div>
+</div>
