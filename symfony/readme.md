@@ -1,5 +1,7 @@
 **Symfony - basic create/edit/view controller**
 
+- [Symfony docs](https://symfony.com/doc/current/index.html#gsc.tab=0)
+
 Setup
 ```
 docker-compose exec php composer install
