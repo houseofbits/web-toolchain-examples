@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManager;
 use App\Entity\Product;
 use App\Entity\Log;
 use App\Form\Type\ProductType;
+use App\Service\ProductCreationService;
 
 class ProductController extends AbstractController
 {
@@ -34,7 +35,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/products/add")
      */
-    public function add(Request $request)
+    public function add(Request $request, ProductCreationService $productCreationService)
     {
         $product = new Product();
 
@@ -43,14 +44,11 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             /** @var Product $product */
             $product = $form->getData();
 
-            $product->setCreatedAt(new \DateTime('now'));
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($product);
-            $entityManager->flush();
+            $productCreationService->saveProduct($product);
 
             return $this->redirectToRoute('app_product_index');
         }
@@ -64,21 +62,18 @@ class ProductController extends AbstractController
     /**
      * @Route("/products/edit/{id}")
      */
-    public function edit(Product $product, Request $request)
+    public function edit(Product $product, Request $request, ProductCreationService $productCreationService)
     {
         $form = $this->createForm(ProductType::class, $product);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             /** @var Product $product */
             $product = $form->getData();
 
-            $product->setUpdatedAt(new \DateTime('now'));
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($product);
-            $entityManager->flush();
+            $productCreationService->saveProduct($product);
 
             return $this->redirectToRoute('app_product_index');
         }
@@ -108,13 +103,9 @@ class ProductController extends AbstractController
     /**
      * @Route("/products/delete/{id}")
      */
-    function delete(Product $product) {
-
-        /* @var $entityManager EntityManager */
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $entityManager->remove($product);
-        $entityManager->flush();
+    function delete(Product $product, ProductCreationService $productCreationService)
+    {
+        $productCreationService->deleteProduct($product);
 
         return $this->redirectToRoute('app_product_index');
     }
