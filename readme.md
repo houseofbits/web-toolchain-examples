@@ -7,3 +7,6 @@
 - **docker-compose-nginx-php-composer** Basic dockerised web setup (Requires additional config for different frameworks)
 - **templating-engines** Standalone Twig and Mustache
 - **symfony** Create/Edit/View controller example with Symfony framework
+- **react-js/react-hello-world** Basic React example
+- **react-js/react-tetris** Tetris game purely on React
+
