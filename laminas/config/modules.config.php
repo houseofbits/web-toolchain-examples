@@ -27,6 +27,8 @@ return [
     'Laminas\DeveloperTools',
     'DoctrineModule',
     'DoctrineORMModule',
+    'SlmQueue',
+    'SlmQueueDoctrine\Module',
     'Application',
     'Products'
 ];

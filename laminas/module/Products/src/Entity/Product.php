@@ -3,6 +3,7 @@
 namespace Products\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToOne;
 
 /**
  * @ORM\Entity
@@ -28,6 +29,11 @@ class Product
      */
     protected $imageUrl;
 
+    /**
+     * @OneToOne(targetEntity="ProductStock", inversedBy="product")
+     */
+    private $stock;
+
     public function getId()
     {
         return $this->id;
@@ -41,6 +47,24 @@ class Product
     public function getName():? string
     {
         return $this->name;
+    }
+
+    /**
+     * @param null|ProductStock $stock
+     * @return Product
+     */
+    public function setStock(?ProductStock $stock): Product
+    {
+        $this->stock = $stock;
+        return $this;
+    }
+
+    /**
+     * @return null|ProductStock
+     */
+    public function getStock():? ProductStock
+    {
+        return $this->stock;
     }
 
     /**

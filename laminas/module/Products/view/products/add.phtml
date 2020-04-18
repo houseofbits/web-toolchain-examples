@@ -8,7 +8,13 @@
 <?php
 /** @var \Products\Form\ProductForm $form */
 $form = $this->form;
-$form->setAttribute('action', $this->url('main', ['action'=>'add']));
+
+$action = 'add';
+if($formEdit){
+    $action = 'edit';
+}
+
+$form->setAttribute('action', $this->url('main', ['action'=>$action]));
 
 $fieldset = $form->get('product');
 

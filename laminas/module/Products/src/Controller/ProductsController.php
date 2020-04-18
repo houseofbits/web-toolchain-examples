@@ -69,8 +69,11 @@ class ProductsController extends AbstractController
 
     public function editAction()
     {
+        /** @var Request $request */
+        $request   = $this->getRequest();
+
         $id = $this->params()->fromRoute('id');
-        if (! $id) {
+        if (! $id && !$request->isPost()) {
             return $this->redirect()->toRoute('main');
         }
 
@@ -81,9 +84,6 @@ class ProductsController extends AbstractController
 
         $product = $ps->getProduct(intval($id));
 
-        /** @var Request $request */
-        $request   = $this->getRequest();
-
         $formManager = $this->getServiceManager()->get('FormElementManager');
 
         $view = new ViewModel();
@@ -91,7 +91,9 @@ class ProductsController extends AbstractController
         /** @var ProductForm $form */
         $form = $formManager->get(ProductForm::class);
 
-        $form->bind($product);
+        if ($product instanceof Product) {
+            $form->bind($product);
+        }
 
         $view->setVariables(compact('form', 'formEdit'));
 

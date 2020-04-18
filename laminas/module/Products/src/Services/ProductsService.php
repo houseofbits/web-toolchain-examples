@@ -51,6 +51,10 @@ class ProductsService
     {
         $product->setUpdatedAt(new \DateTime('now'));
 
+        if ($product->getId()) {
+            $product = $this->em->merge($product);
+        }
+
         if (!$this->em->contains($product)) {
             $product->setCreatedAt(new \DateTime('now'));
         }
