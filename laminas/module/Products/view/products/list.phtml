@@ -1,0 +1,17 @@
+<div class="container mt-3">
+
+    <?=$this->flashMessenger()
+        ->setMessageOpenFormat('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>')
+        ->setMessageSeparatorString('<br>')
+        ->setMessageCloseString('</div>')
+        ->render();
+    ?>
+
+    <div class="card-deck">
+        <?php
+        foreach($products as $product) {
+            echo $this->partial('products/product.phtml', compact('product'));
+        }
+        ?>
+    </div>
+</div> 

@@ -1,0 +1,61 @@
+<div class="container mt-3">
+    <?php if($formEdit){?>
+    <h2>Edit product</h2>
+    <?php } else {?>
+        <h2>Add new product</h2>
+    <?php }?>
+
+<?php
+/** @var \Products\Form\ProductForm $form */
+$form = $this->form;
+$form->setAttribute('action', $this->url('main', ['action'=>'add']));
+
+$fieldset = $form->get('product');
+
+$nameField = $fieldset->get('name');
+$nameField->setAttribute('class', 'form-control');
+$nameField->setAttribute('placeholder', 'Product name');
+
+$imageUrlField = $fieldset->get('imageUrl');
+$imageUrlField->setAttribute('class', 'form-control');
+$imageUrlField->setAttribute('placeholder', 'Image Url');
+
+$submitField = $form->get('submit');
+$submitField->setValue("Add");
+if($formEdit){
+    $submitField->setValue("Save");
+}
+$submitField->setAttribute('class', 'btn btn-primary');
+
+$form->prepare();
+
+echo $this->form()->openTag($form);
+
+$this->formElementErrors()->setMessageOpenFormat('<small class="text-danger">');
+$this->formElementErrors()->setMessageSeparatorString('</small><br><small  class="text-danger">');
+$this->formElementErrors()->setMessageCloseString('</small >');
+
+?>
+
+<fieldset>
+<div class="form-group">
+    <?= $this->formLabel($nameField) ?>
+    <?= $this->formElement($nameField) ?>
+    <?= $this->formElementErrors()->render($nameField) ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($imageUrlField) ?>
+    <?= $this->formElement($imageUrlField) ?>
+    <?= $this->formElementErrors()->render($imageUrlField) ?>
+</div>
+</fieldset>
+<a href="<?= $this->url('main') ?>" class="btn btn-success">Cancel</a>
+
+<?php
+echo $this->formSubmit($submitField);
+echo $this->formHidden($fieldset->get('id'));
+echo $this->form()->closeTag();
+?>
+
+</div>

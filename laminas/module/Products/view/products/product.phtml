@@ -1,0 +1,13 @@
+<?php
+/** @var Entities\Product $product */
+?>
+<div class="card bg-light" style="width:300px">
+    <img class="card-img-top" src="<?=$product->getImageUrl()?>" alt="Card image" style="width:100%">
+    <div class="card-body">
+        <h4 class="card-title"><?=$product->getName()?></h4>
+        <div class="btn-group btn-group-sm">
+            <a href="<?= $this->url('main', ['action'=>'edit', 'id' => $product->getId()]) ?>" class="btn btn-primary">Edit</a>
+            <a href="<?= $this->url('main', ['action'=>'delete', 'id' => $product->getId()]) ?>" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+</div>
