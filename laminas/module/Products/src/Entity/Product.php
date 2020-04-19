@@ -30,9 +30,9 @@ class Product
     protected $imageUrl;
 
     /**
-     * @OneToOne(targetEntity="ProductStock", inversedBy="product")
+     * @OneToOne(targetEntity="ProductStock", inversedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $stock;
+    private $stock = null;
 
     public function getId()
     {

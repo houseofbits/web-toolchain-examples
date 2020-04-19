@@ -9,7 +9,11 @@ use Laminas\Http\Request;
 use Laminas\View\Model\ViewModel;
 use Products\Entity\Product;
 use Products\Form\ProductForm;
+use Products\Job\ProductStockJob;
 use Products\Services\ProductsService;
+use Products\Factory\ProductStockJobFactory;
+use Products\Services\StockStatusService;
+
 
 class ProductsController extends AbstractController
 {
@@ -59,6 +63,8 @@ class ProductsController extends AbstractController
                 $ps->saveProduct($product);
 
                 $this->flashMessenger()->addMessage(sprintf('New product "%s" created', $product->getName()));
+
+                $queue = $this->queue('main')->push(ProductStockJob::class, ['productId'=>$product->getId()]);
 
                 return $this->redirect()->toRoute('main');
             }
@@ -112,6 +118,8 @@ class ProductsController extends AbstractController
 
                 $this->flashMessenger()->addMessage(sprintf('Product "%s" saved', $product->getName()));
 
+                $queue = $this->queue('main')->push(ProductStockJob::class, ['productId'=>$product->getId()]);
+
                 return $this->redirect()->toRoute('main');
             }
         }
@@ -135,6 +143,25 @@ class ProductsController extends AbstractController
 
             $this->flashMessenger()->addMessage(sprintf('Product "%s" deleted', $product->getName()));
         }
+
+        return $this->redirect()->toRoute('main');
+    }
+
+    public function stockAction()
+    {
+        $id = $this->params()->fromRoute('id');
+        if (! $id) {
+            return $this->redirect()->toRoute('main');
+        }
+
+        $queue = $this->queue('main')->push(ProductStockJob::class, ['productId'=>$id]);
+
+        /** @var ProductsService $ps */
+        $ps = $this->getServiceManager()->get(ProductsService::class);
+
+        $product = $ps->getProduct(intval($id));
+
+        $this->flashMessenger()->addMessage(sprintf('Product "%s" stock request created', $product->getName()));
 
         return $this->redirect()->toRoute('main');
     }

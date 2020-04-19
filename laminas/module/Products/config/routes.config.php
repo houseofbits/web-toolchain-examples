@@ -35,6 +35,16 @@ return [
                     ],
                 ],
             ],
+            'api' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route'    => '/product-stock-api[/:productName]',
+                    'defaults' => [
+                        'controller' => Controller\Api\ProductStockApi::class,
+                        'action'     => 'request',
+                    ],
+                ],
+            ],
         ],
     ],
 ];

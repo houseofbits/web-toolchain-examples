@@ -19,7 +19,7 @@ class LogsController extends AbstractController
         /** @var EntityRepository $logRepository */
         $logRepository = $em->getRepository(Log::class);
 
-        $logs = $logRepository->findAll();
+        $logs = $logRepository->findBy([], ['createdAt'=>'DESC']);
 
         $paginator = new Paginator(new Adapter\ArrayAdapter($logs));
 

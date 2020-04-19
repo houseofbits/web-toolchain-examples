@@ -4,6 +4,7 @@ namespace Products\Services;
 use Doctrine\ORM\EntityManager;
 use Products\Entity\Product;
 use Doctrine\ORM\EntityRepository;
+use Products\Entity\ProductStock;
 use Products\Listeners\ProductEventSubscriber;
 
 class ProductsService
@@ -69,6 +70,30 @@ class ProductsService
     public function deleteProduct(Product $product)
     {
         $this->em->remove($product);
+        $this->em->flush();
+    }
+
+    /**
+     * @param Product $product
+     * @param int $status
+     * @param int|null $stockCount
+     */
+    public function setProductStockStatus(Product $product, int $status, ?int $stockCount = null)
+    {
+        $stock = null;
+        if($product->getStock() instanceof ProductStock) {
+            $stock = $product->getStock();
+            $stock
+                ->setStatus($status)
+                ->setAvailableCount($stockCount);
+        } else {
+            $stock = new ProductStock();
+            $stock->setProduct($product)
+                ->setStatus($status)
+                ->setAvailableCount($stockCount);
+        }
+        $product->setStock($stock);
+        $this->em->persist($product);
         $this->em->flush();
     }
 

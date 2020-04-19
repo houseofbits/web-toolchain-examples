@@ -6,6 +6,7 @@ namespace Products;
 use Laminas\ModuleManager\Feature\ConfigProviderInterface;
 use Laminas\ModuleManager\Feature\AutoloaderProviderInterface;
 use Laminas\Config\Factory;
+use Laminas\Mvc\MvcEvent;
 
 class Module implements ConfigProviderInterface, AutoloaderProviderInterface
 {
@@ -35,5 +36,29 @@ class Module implements ConfigProviderInterface, AutoloaderProviderInterface
                 ],
             ],
         ];
+    }
+
+    /**
+     * @param  MvcEvent $e The MvcEvent instance
+     * @return void
+     */
+    public function onBootstrap(MvcEvent $e)
+    {
+        $app = $e->getApplication();
+        $app->getEventManager()->attach('render', [$this, 'registerJsonStrategy'], 100);
+    }
+
+    /**
+     * @param  MvcEvent $e The MvcEvent instance
+     * @return void
+     */
+    public function registerJsonStrategy(MvcEvent $e)
+    {
+        $app          = $e->getTarget();
+        $locator      = $app->getServiceManager();
+        $view         = $locator->get('Laminas\View\View');
+        $jsonStrategy = $locator->get('ViewJsonStrategy');
+
+        $jsonStrategy->attach($view->getEventManager(), 100);
     }
 }

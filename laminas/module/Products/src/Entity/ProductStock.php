@@ -96,7 +96,7 @@ class ProductStock
      * @param int $availableCount
      * @return ProductStock
      */
-    public function setAvailableCount(int $availableCount): ProductStock
+    public function setAvailableCount(?int $availableCount): ProductStock
     {
         $this->availableCount = $availableCount;
         return $this;
@@ -113,5 +113,14 @@ class ProductStock
             self::STATUS_REQUEST_SUCCESFUL => 'Stock request successful',
             self::STATUS_REQUEST_FAILED => 'Stock request failed',
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusKey(): string
+    {
+        $statuses = $this->getStatusKeys();
+        return $statuses[$this->getStatus()] ?? '';
     }
 }

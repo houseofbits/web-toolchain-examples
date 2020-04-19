@@ -1,13 +1,16 @@
 <?php
-/** @var Entities\Product $product */
+/** @var \Products\Entity\Product $product */
+
+use Products\View\Helper\StockStatusHelper;
+
 ?>
 <div class="card bg-light" style="width:300px">
     <img class="card-img-top" src="<?=$product->getImageUrl()?>" alt="Card image" style="width:100%">
     <div class="card-body">
         <h4 class="card-title"><?=$product->getName()?></h4>
-
-        <?=$this->partial('products/stock-status.phtml', compact('product'))?>
-
+        <a href="<?= $this->url('main', ['action'=>'stock', 'id' => $product->getId()]) ?>">
+        <?=$this->stockStatus($product->getStock())?>
+        </a>
         <hr>
         <div class="btn-group btn-group-sm">
             <a href="<?= $this->url('main', ['action'=>'edit', 'id' => $product->getId()]) ?>" class="btn btn-primary">Edit</a>

@@ -10,6 +10,7 @@ return [
         'factories' => [
             Controller\ProductsController::class => ControllerFactory::class,
             Controller\LogsController::class => ControllerFactory::class,
+            Controller\Api\ProductStockApi::class => ControllerFactory::class,
         ],
     ],
     'doctrine' => [

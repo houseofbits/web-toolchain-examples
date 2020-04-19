@@ -8,6 +8,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Products\Entity\Product;
 use Products\Entity\Log;
+use Products\Entity\ProductStock;
 
 class ProductEventSubscriber implements EventSubscriber
 {
@@ -30,6 +31,9 @@ class ProductEventSubscriber implements EventSubscriber
         if ($entity instanceof Product) {
             $this->writeLog($entityManager, sprintf("Product %d updated", $entity->getId()));
         }
+        if ($entity instanceof ProductStock) {
+            $this->writeLog($entityManager, sprintf("ProductStock %d updated with status %d", $entity->getId(), $entity->getStatus()));
+        }
     }
 
     public function postRemove(LifecycleEventArgs $args)
@@ -42,6 +46,9 @@ class ProductEventSubscriber implements EventSubscriber
         if ($entity instanceof Product) {
             $this->writeLog($entityManager, sprintf("Product %d removed", $entity->getId()));
         }
+        if ($entity instanceof ProductStock) {
+            $this->writeLog($entityManager, sprintf("ProductStock %d deleted", $entity->getId()));
+        }
     }
 
     public function postPersist(LifecycleEventArgs $args)
@@ -53,6 +60,9 @@ class ProductEventSubscriber implements EventSubscriber
 
         if ($entity instanceof Product) {
             $this->writeLog($entityManager, sprintf("Product %d created", $entity->getId()));
+        }
+        if ($entity instanceof ProductStock) {
+            $this->writeLog($entityManager, sprintf("ProductStock %d created with status %d", $entity->getId(), $entity->getStatus()));
         }
     }
 
