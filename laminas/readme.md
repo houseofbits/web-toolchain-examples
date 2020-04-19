@@ -1,4 +1,4 @@
-**Zend Framework(Laminas) - CRUD application example**
+**Zend Framework(Laminas) - CRUD application example + SlmQueue**
 
 Based on laminas/laminas-mvc-skeleton. 
 
