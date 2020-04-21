@@ -8,6 +8,6 @@
 - **templating-engines** Standalone Twig and Mustache
 - **symfony** CRUD application example with Symfony framework
 - **laminas** CRUD application example with Zend Framework (Laminas)
-- **react-js/react-hello-world** Basic React example
+- **react-js/react-hello-world** Basic React example 
 - **react-js/react-tetris** Tetris game purely on React
-- **vue-js/vue-tetris** Tetris game purely on Vue
+- **vue-tetris** Tetris game purely on Vue (With most of the game rules)

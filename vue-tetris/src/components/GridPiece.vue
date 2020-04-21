@@ -35,23 +35,30 @@
     }
     .color0{
         background-color: cyan;
+        background: linear-gradient(to right, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%);
     }
     .color1{
         background-color: blue;
+        background: linear-gradient(to right, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
     }
     .color2{
         background-color: orange;
+        background: linear-gradient(to right, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%);
     }
     .color3{
         background-color: yellow;
+        background: linear-gradient(to right, rgba(241,231,103,1) 0%, rgba(254,182,69,1) 100%);
     }
     .color4{
         background-color: green;
+        background: linear-gradient(to right, rgba(164,179,87,1) 0%, rgba(117,137,12,1) 100%);
     }
     .color5{
         background-color: magenta;
+        background: linear-gradient(to right, rgba(255,93,177,1) 0%, rgba(239,1,124,1) 100%);
     }
     .color6{
         background-color: red;
+        background: linear-gradient(to right, rgba(241,111,92,1) 0%, rgba(231,56,39,1) 100%);
     }
 </style>
