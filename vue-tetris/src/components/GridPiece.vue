@@ -5,10 +5,11 @@
 <script>
     export default {
         name: "GridPiece",
-        props: ['posX', 'posY', 'size', 'color'],
+        props: ['posX', 'posY', 'size', 'color', 'clear'],
         computed:{
             pieceClass:function(){
-                return 'piece color'+(this.color - 1);
+                let clear = ((this.clear)?' clear':'');
+                return 'piece color'+(this.color - 1) + clear;
             },
             pieceStyle:function(){
                 return {
@@ -32,6 +33,10 @@
         border-right-color: rgba(0,0,0,0.4);
         border-bottom-color: rgba(0,0,0,0.4);
         border-radius: 5px;
+    }
+    .clear{
+        opacity: 0;
+        transition: opacity 1s;
     }
     .color0{
         background-color: cyan;

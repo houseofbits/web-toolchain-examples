@@ -1,7 +1,7 @@
 <template>
   <div class="frame" :style="frameStyle">
     <div class="score" v-if="!gameOver">{{linesCleared}}</div>
-    <Grid :deck="deck" :deckSize="deckSize" :pieceSize="pieceSize"/>
+    <Grid :deck="deck" :deckSize="deckSize" :pieceSize="pieceSize" :lineToClear="lineToClear"/>
     <ActiveItem v-if="activeItem.active"
             :pieceSize="pieceSize"
             :deck="deck"
@@ -41,7 +41,8 @@ import ActiveItem from './components/ActiveItem'
               config:2
           },
           gameOver:false,
-          linesCleared:0
+          linesCleared:0,
+          lineToClear:null
       }
     },
     components: {
@@ -76,6 +77,7 @@ import ActiveItem from './components/ActiveItem'
         onCollisionCallback:function(itemConfig, color){
             let _x = 0;
             let _y = 0;
+            //Merge pieces into deck
             for(let i = 0; i<itemConfig.length; i++) {
                 _x = itemConfig[i].x;
                 _y = itemConfig[i].y;
@@ -87,30 +89,53 @@ import ActiveItem from './components/ActiveItem'
                     this.$set(this.deck, _y, newRow);
                 }
             }
-            for (let y = 0; y < this.deck.length; y++) {
-                let clear = true;
-                for(let x=0; x < this.deck[y].length; x++){
-                    if(this.deck[y][x] === 0){
-                        clear = false;
+            //Check for completed lines to clear
+            this.clearLinesAndContinue();
+        },
+        clearLinesAndContinue:function(){
+            this.activeItem.active = false;
+            //Clear selected full line
+            if(this.lineToClear !== null) {
+                this.deck.splice(this.lineToClear, 1);
+                this.linesCleared++;
+
+                this.lineToClear = null;
+
+                //Add missing empty lines in top of deck
+                while(this.deck.length < this.deckSize.gridY){
+                    let line = [];
+                    for(let x=0; x<this.deckSize.gridX; x++){
+                        line.push(0);
+                    }
+                    this.deck.unshift(line);
+                }
+                this.$forceUpdate();
+            }
+            this.$nextTick(function(){
+                //Check if there is more lines to clear
+                for (let y = 0; y < this.deck.length; y++) {
+                    let clear = true;
+                    for(let x=0; x < this.deck[y].length; x++){
+                        if(this.deck[y][x] === 0){
+                            clear = false;
+                            break;
+                        }
+                    }
+                    if(clear) {
+                        this.lineToClear = y;
                         break;
                     }
                 }
-                if(clear){
-                    this.deck.splice(y, 1);
-                    this.linesCleared++;
-                    y = 0;
+                if(this.lineToClear !== null){
+                    //Set timer for next line to clear
+                    let parent = this;
+                    setTimeout(function(){
+                        parent.clearLinesAndContinue();
+                    }, 1000);
+                }else{  //No more new lines to clear, generate new piece
+                    this.generateNextItem();
                 }
-            }
-            while(this.deck.length < this.deckSize.gridY){
-                let line = [];
-                for(let x=0; x<this.deckSize.gridX; x++){
-                    line.push(0);
-                }
-                this.deck.unshift(line);
-            }
-
-            this.activeItem.active = false;
-            this.generateNextItem();
+            });
         },
         onGameFinishedCallback:function(){
             this.activeItem.active = false;
@@ -126,22 +151,22 @@ import ActiveItem from './components/ActiveItem'
         },
         keyDown: function(e){
             //Space bar - generate new item
-            if(e.keyCode === 32) {
-                this.generateNewItem();
-                this.activeItem.active = true;
-            }
+            // if(e.keyCode === 32) {
+            //     this.generateNewItem();
+            //     this.activeItem.active = true;
+            // }
         },
         generateNextItem: function(){
             let parent = this;
             this.interval = setTimeout(function(){
                 parent.generateNewItem();
                 parent.activeItem.active = true;
-            }, 500);
+            }, 200);
         }
     },
     mounted:function() {
         window.addEventListener("keydown", this.keyDown);
-        this.createDeck(20, 30, 30);
+        this.createDeck(10, 20, 30);
         this.generateNextItem();
     }
   }

@@ -6,6 +6,7 @@
                    :posY="piece.posY"
                    :size="pieceSize"
                    :color="piece.color"
+                   :clear="piece.clear"
         />
     </div>
 </template>
@@ -16,7 +17,7 @@ import GridPiece from './GridPiece'
 
     export default {
         name: "Grid",
-        props: ['deck', 'deckSize', 'pieceSize'],
+        props: ['deck', 'deckSize', 'pieceSize', 'lineToClear'],
         components: {
             GridPiece
         },
@@ -30,7 +31,8 @@ import GridPiece from './GridPiece'
                                 {
                                     color:this.deck[y][x],
                                     posX:x,
-                                    posY:y
+                                    posY:y,
+                                    clear:(y === this.lineToClear)
                                 }
                             );
                         }
