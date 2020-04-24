@@ -20,6 +20,7 @@
 
 import Grid from './components/Grid'
 import ActiveItem from './components/ActiveItem'
+import level1Data from './levels/level1.json';
 
   export default {
     name: "app",
@@ -57,6 +58,24 @@ import ActiveItem from './components/ActiveItem'
       }
     },
     methods:{
+        createDeckFromData: function(data, pieceSize){
+
+            this.deck = [];
+
+            this.deckSize.gridX = data[0].length;
+            this.deckSize.gridY = data.length;
+            this.pieceSize = pieceSize;
+            this.deckSize.sizeX = this.deckSize.gridX * pieceSize;
+            this.deckSize.sizeY = this.deckSize.gridY * pieceSize;
+
+            for(let y=0; y<this.deckSize.gridY; y++){
+                let line = [];
+                for(let x=0; x<this.deckSize.gridX; x++){
+                    line.push(data[y][x]);
+                }
+                this.deck.push(line);
+            }
+        },
         createDeck: function(gridX, gridY, pieceSize){
             this.deckSize.gridX = gridX;
             this.deckSize.gridY = gridY;
@@ -145,7 +164,7 @@ import ActiveItem from './components/ActiveItem'
         generateNewItem: function(){
             const maxColors = 5;
             this.activeItem.config = Math.floor(Math.random() * 7);
-            this.activeItem.posX = 0;
+            this.activeItem.posX = Math.floor(this.deckSize.gridX / 2) - 2;
             this.activeItem.posY = 0;
             this.activeItem.rotation = Math.floor(Math.random() * 2);
         },
@@ -166,7 +185,9 @@ import ActiveItem from './components/ActiveItem'
     },
     mounted:function() {
         window.addEventListener("keydown", this.keyDown);
-        this.createDeck(10, 20, 30);
+//        this.createDeck(30, 20, 25);
+        this.createDeckFromData(level1Data, 30);
+
         this.generateNextItem();
     }
   }
