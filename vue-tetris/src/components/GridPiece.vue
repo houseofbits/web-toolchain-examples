@@ -66,4 +66,12 @@
         background-color: red;
         background: linear-gradient(to right, rgba(241,111,92,1) 0%, rgba(231,56,39,1) 100%);
     }
+    .color7{
+        background-color: darkgray;
+        background: linear-gradient(to right, #7d7e7d 0%,#0e0e0e 100%);
+    }
+    .color8{
+        background-color: darkred;
+        background: linear-gradient(to right, #a90329 0%,#8f0222 44%,#6d0019 100%);
+    }
 </style>

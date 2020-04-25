@@ -1,25 +1,31 @@
 <template>
-  <div class="frame" :style="frameStyle">
-    <div class="score" v-if="!gameOver">{{linesCleared}}</div>
-    <Grid :deck="deck" :deckSize="deckSize" :pieceSize="pieceSize" :lineToClear="lineToClear"/>
-    <ActiveItem v-if="activeItem.active"
-            :pieceSize="pieceSize"
-            :deck="deck"
-            :posX="activeItem.posX"
-            :posY="activeItem.posY"
-            :config="activeItem.config"
-            :rotation="activeItem.rotation"
-            :collisionHandler="onCollisionCallback"
-            :finishedHandler="onGameFinishedCallback"
-    />
-    <div class="game-over" v-if="gameOver">Game over <br>{{linesCleared}} lines cleared</div>
-  </div>
+    <div>
+        <div class="frame" :style="frameStyle">
+        <div class="score" v-if="!gameOver">{{linesCleared}}</div>
+        <Grid :deck="deck" :deckSize="deckSize" :pieceSize="pieceSize" :lineToClear="lineToClear"/>
+        <ActiveItem v-if="activeItem.active"
+                :pieceSize="pieceSize"
+                :deck="deck"
+                :posX="activeItem.posX"
+                :posY="activeItem.posY"
+                :config="activeItem.config"
+                :rotation="activeItem.rotation"
+                :collisionHandler="onCollisionCallback"
+                :finishedHandler="onGameFinishedCallback"
+        />
+        <div class="game-over" v-if="gameOver">Game over <br>{{linesCleared}} lines cleared</div>
+        </div>
+        <div class="preview-item-frame">
+            <PreviewItem :pieceSize="20" :config="nextItem.config" :rotation="nextItem.rotation"></PreviewItem>
+        </div>
+    </div>
 </template>
 
 <script>
 
 import Grid from './components/Grid'
 import ActiveItem from './components/ActiveItem'
+import PreviewItem from './components/PreviewItem'
 import level1Data from './levels/level1.json';
 
   export default {
@@ -41,13 +47,17 @@ import level1Data from './levels/level1.json';
               posY:0,
               config:2
           },
+          nextItem:{
+              config:2,
+              rotation:1
+          },
           gameOver:false,
           linesCleared:0,
           lineToClear:null
       }
     },
     components: {
-        Grid, ActiveItem
+        Grid, ActiveItem, PreviewItem
     },
     computed:{
       frameStyle:function(){
@@ -163,10 +173,13 @@ import level1Data from './levels/level1.json';
         },
         generateNewItem: function(){
             const maxColors = 5;
-            this.activeItem.config = Math.floor(Math.random() * 7);
+            this.activeItem.config = this.nextItem.config;
             this.activeItem.posX = Math.floor(this.deckSize.gridX / 2) - 2;
             this.activeItem.posY = 0;
-            this.activeItem.rotation = Math.floor(Math.random() * 2);
+            this.activeItem.rotation = this.nextItem.rotation;
+
+            this.nextItem.config = Math.floor(Math.random() * 7);
+            this.nextItem.rotation = Math.floor(Math.random() * 2);
         },
         keyDown: function(e){
             //Space bar - generate new item
@@ -188,6 +201,7 @@ import level1Data from './levels/level1.json';
 //        this.createDeck(30, 20, 25);
         this.createDeckFromData(level1Data, 30);
 
+        this.generateNewItem();
         this.generateNextItem();
     }
   }
@@ -198,11 +212,39 @@ import level1Data from './levels/level1.json';
     @import url('https://fonts.googleapis.com/css?family=Chau+Philomene+One');
     .frame{
         position:absolute;
-        top:50px;
-        left:50px;
+        top:10px;
+        left:100px;
         border:solid 10px gray;
-        background-color: #9dbed0;
         background: linear-gradient(to bottom, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%);
+    }
+    .frame:before{
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity:0.7;
+        background:
+                linear-gradient(-90deg, rgba(0, 0, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px),
+                linear-gradient(-90deg, rgba(0, 0, 0, .04) 1px, transparent 1px),
+                linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px),
+                linear-gradient(transparent 3px, #f2f2f2 3px, #f2f2f2 78px, transparent 78px),
+                linear-gradient(-90deg, #aaa 1px, transparent 1px),
+                linear-gradient(-90deg, transparent 3px, #f2f2f2 3px, #f2f2f2 78px, transparent 78px),
+                linear-gradient(#171717 1px, transparent 1px),
+                #f2f2f2;
+        background-size:
+                6px 6px,
+                6px 6px,
+                30px 30px,
+                30px 30px,
+                30px 30px,
+                30px 30px,
+                30px 30px,
+                30px 30px;
+        mix-blend-mode: multiply;
     }
     .game-over{
         font-family: "Chau Philomene One", sans-serif;
@@ -229,5 +271,14 @@ import level1Data from './levels/level1.json';
         text-shadow: rgba(0, 0, 0, 0.8) 2px 2px 8px;
         position:relative;
         text-align: center;
+    }
+    .preview-item-frame{
+        position:absolute;
+        width:80px;
+        height:80px;
+        left:10px;
+        top:10px;
+        border:solid 10px gray;
+        background-color: gray;
     }
 </style>

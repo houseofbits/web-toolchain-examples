@@ -45,6 +45,8 @@
                 let newPosY = this.positionY;
                 let newRotation = this.rotationIndex;
 
+                console.log(e.keyCode);
+
                 //Left
                 if(e.keyCode === 37) {
                     newPosX--;
@@ -53,14 +55,20 @@
                 if(e.keyCode === 39) {
                     newPosX++;
                 }
-                //Up - Rotate
-                if(e.keyCode === 38) {
-                    newRotation = (newRotation + 1)%4;
-                }
                 //Down
                 if(e.keyCode === 40) {
                     newPosY++;
                 }
+                //88 - X
+                if(e.keyCode === 88) {
+                    newRotation = (newRotation + 1)%4;
+                }
+                //90 - Z
+                if(e.keyCode === 90) {
+                    newRotation = newRotation - 1;
+                    if(newRotation < 0)newRotation = 3;
+                }
+
                 //Space bar
                 // if(e.keyCode === 32) {
                 //     this.collisionHandler(this.itemConfig, this.config);
