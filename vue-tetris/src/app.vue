@@ -282,3 +282,11 @@ import level1Data from './levels/level1.json';
         background-color: gray;
     }
 </style>
+
+<style>
+    body{
+        background: linear-gradient(to bottom, #606c88 0%,#3f4c6b 100%);  
+        background-repeat: no-repeat;
+        background-size: 100% 1400px;   
+    }
+</style>
